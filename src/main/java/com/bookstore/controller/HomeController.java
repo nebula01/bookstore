@@ -56,13 +56,14 @@ public class HomeController {
 		return "myAccount";
 	}
 
+	// 새 비밀번호 
 	@RequestMapping("/forgetPassword")
 	public String forgetPassword(
 			HttpServletRequest request,
 			@ModelAttribute("email") String email,
 			Model model
 			) {
-
+		
 		model.addAttribute("classActiveForgetPassword", true);
 		
 		User user = userService.findByEmail(email);
@@ -72,6 +73,7 @@ public class HomeController {
 			return "myAccount";
 		}
 		
+		// 새 비밀번호 만들기
 		String password = SecurityUtility.randomPassword();
 		
 		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
@@ -79,7 +81,7 @@ public class HomeController {
 		
 		userService.save(user);
 		
-		String token = UUID.randomUUID().toString(); // token 생성
+		String token = UUID.randomUUID().toString(); 
 		userService.createPasswordResetTokenForUser(user, token);
 		
 		String appUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
@@ -88,7 +90,7 @@ public class HomeController {
 		
 		mailSender.send(newEmail);
 		
-		model.addAttribute("forgetPasswordEmailSent", "true");
+		model.addAttribute("forgetPasswordEmailSent", true);
 		
 		
 		return "myAccount";
