@@ -39,5 +39,7 @@ public class BookstoreApplication implements CommandLineRunner {
 		userRoles.add(new UserRole(user1, role1));
 		
 		userService.createUser(user1, userRoles);
+		
+		
 	}
 }
