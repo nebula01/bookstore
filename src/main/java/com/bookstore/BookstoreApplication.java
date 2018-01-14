@@ -40,6 +40,7 @@ public class BookstoreApplication implements CommandLineRunner {
 		
 		userService.createUser(user1, userRoles);
 		
+		User user2 = new User();
 		
 	}
 }
