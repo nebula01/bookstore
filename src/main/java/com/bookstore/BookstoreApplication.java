@@ -40,7 +40,22 @@ public class BookstoreApplication implements CommandLineRunner {
 		
 		userService.createUser(user1, userRoles);
 		
-		User user2 = new User();
+		userRoles.clear();
 		
+		User user2 = new User();
+		user2.setFirstName("admin");
+		user2.setLastName("Adams");
+		user2.setUsername("admin");
+		user2.setPassword(SecurityUtility.passwordEncoder().encode("admin"));
+		user2.setEmail("parkchyo@gmail.com");
+		
+		Role role2= new Role();
+		role2.setRoleId(0);
+		role2.setName("ROLE_ADMIN");
+		userRoles.add(new UserRole(user2, role2));
+		
+		userService.createUser(user2, userRoles);
+		
+		userRoles.clear(); // 유저 생성 후에는 클리어
 	}
 }

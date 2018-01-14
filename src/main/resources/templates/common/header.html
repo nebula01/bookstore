@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="common-header">
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<title>Le's Bookstore</title>
+<title>책 가게</title>
 
 <!-- Bootstrap core CSS -->
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
@@ -25,7 +26,7 @@
 		<nav class="navbar navbar-default navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">LE'S BOOKSTORE</a>
+					<a class="navbar-brand" href="#">책 가게</a>
 				</div>
 				<div id="navbar">
 					<ul class="nav navbar-nav navbar-left">
@@ -47,9 +48,12 @@
 						</form>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<!-- 헤드부분 로그인 했을 경우와 안했을 경우 -->
 						<li><a href="#">SHOPPING CART</a></li>
-						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">MY ACCOUNT</a></li>
-						<li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">MY ACCOUNT</a></li>
+						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">MY
+								ACCOUNT</a></li>
+						<li><a sec:authorize="isAuthenticated()"
+							th:href="@{/myProfile}">MY ACCOUNT</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
 					</ul>
 				</div>
@@ -58,11 +62,11 @@
 			<!--/.container-fluid -->
 		</nav>
 	</div>
-	
+
 	<div th:fragment="body-bottom-scripts">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 	</div>
 </body>
 </html>

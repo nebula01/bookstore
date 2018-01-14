@@ -79,7 +79,7 @@ public class HomeController {
 		
 		userService.save(user);
 		
-		String token = UUID.randomUUID().toString();
+		String token = UUID.randomUUID().toString(); // token 생성
 		userService.createPasswordResetTokenForUser(user, token);
 		
 		String appUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
@@ -170,7 +170,7 @@ public class HomeController {
 		
 		model.addAttribute("user", user);
 
-		model.addAttribute("classActiveEdit", true);
+		model.addAttribute("classActiveEdit", true); 
 		return "myProfile";
 	}
 }
