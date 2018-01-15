@@ -42,7 +42,7 @@ public class BookstoreApplication implements CommandLineRunner {
 		
 		userRoles.clear();
 		
-		User user2 = new User();
+		/*User user2 = new User();
 		user2.setFirstName("admin");
 		user2.setLastName("Adams");
 		user2.setUsername("admin");
@@ -57,5 +57,5 @@ public class BookstoreApplication implements CommandLineRunner {
 		userService.createUser(user2, userRoles);
 		
 		userRoles.clear(); // 유저 생성 후에는 클리어
-	}
+*/	}
 }
