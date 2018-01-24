@@ -36,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/newUser",
 			"/forgetPassword",
 			"/login",
-			"/fonts/**" // 폰트 접근 권한 없을 시 다운로드 됨
+			"/fonts/**", // 폰트 접근 권한 없을 시 다운로드 됨
+			"/bookShelf", // 로그인 없이도 책을 볼 수 있게
+			"/bookDetail"
 	};
 
 	@Override
