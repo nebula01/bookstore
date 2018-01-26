@@ -1,6 +1,7 @@
 package com.bookstore.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -196,6 +197,7 @@ public class HomeController {
 	
 	// 책 상세보기
 	@RequestMapping("/bookDetail")
+	// pathParam() url에 붙어오기 때문에 pathparam을 씀
 	public String bookDetail(@PathParam("id") Long id, Model model, Principal principal) {
 		
 		// 유저 로그인 여부 체크
@@ -215,7 +217,7 @@ public class HomeController {
 		
 		model.addAttribute("qtyList", qtyList);
 		
-		model.addAttribute("qty", 1);
+		model.addAttribute("qty", 1); //디폴트 값
 		
 		return "bookDetail";
 	}

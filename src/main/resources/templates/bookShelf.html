@@ -43,22 +43,23 @@
 									<div class="row">
 										<div class="col-xs-3">
 										<!--#{adminPath} 패스정의 해줘야 함(messages.properties) 어드민쪽의 이미지 폴더  -->
-											<img class="img-responsive shelf-book"
-												th:src="#{adminPath}+@{/image/book/}+${book.id}+'.png'" />
+											<a th:href="@{/bookDetail?id=}+${book.id}"><img class="img-responsive shelf-book"
+												th:src="#{adminPath}+@{/image/book/}+${book.id}+'.png'" /></a>
 										</div>
 										<div class="col-xs-9">
-											<h4 th:text="${book.title}"></h4>
-											<span th:text="${book.publicationDate}"></span> <span
-												th:text="${book.author}"></span> <span
-												th:text="${#strings.capitalize(book.format)}"></span> <span
-												th:text="${book.numberOfPages}"><span> 페이지</span></span> <br/>
-												<span style="font-size: x-large; color: #db3208;">￦<span
-												th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'DEFAULT', 0, 'DEFAULT')}"></span></span>
+											<a th:href="@{/bookDetail?id=}+${book.id}"><h4 th:text="${book.title}"></h4></a>
+											<span th:text="${book.publicationDate}"></span> 
+											<p
+												th:text="${book.author}"></p> 
+											<span th:text="${#strings.capitalize(book.format)}"></span> 
+											<a th:href="@{/bookDetail?id=}+${book.id}"><span th:text="${book.numberOfPages}">페이지<span></span></span></a> <br/>
+											<a th:href="@{/bookDetail?id=}+${book.id}"><span style="font-size: x-large; color: #db3208;">￦<span
+												th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'DEFAULT', 0, 'DEFAULT')}"></span></span></a>
 
 											<span style="text-decoration: line-through;">￦<span
 												th:text="${#numbers.formatDecimal(book.listPrice, 0 , 'DEFAULT', 0, 'DEFAULT')}"></span></span>
 
-											<p th:utext="${#strings.abbreviate(book.description, 500)}"></p>
+											<p th:utext="${#strings.abbreviate(book.description, 1000)}"></p>
 										</div>
 									</div>
 								</div>
