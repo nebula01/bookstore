@@ -52,7 +52,7 @@
 											<p
 												th:text="${book.author}"></p> 
 											<span th:text="${#strings.capitalize(book.format)}"></span> 
-											<a th:href="@{/bookDetail?id=}+${book.id}"><span th:text="${book.numberOfPages}">페이지<span></span></span></a> <br/>
+											<a th:href="@{/bookDetail?id=}+${book.id}"><span th:text="${book.numberOfPages}"></span>페이지</a> <br/>
 											<a th:href="@{/bookDetail?id=}+${book.id}"><span style="font-size: x-large; color: #db3208;">￦<span
 												th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'DEFAULT', 0, 'DEFAULT')}"></span></span></a>
 

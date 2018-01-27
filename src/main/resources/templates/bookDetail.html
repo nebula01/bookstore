@@ -29,7 +29,7 @@
     	<input hidden="hidden" th:field="*{book.id}" />
     	<div class="row" style="margin-top: 120px;">
     		<div class="col-xs-3">
-    			<a th:href="@{/bookshelf}">책 목록으로 돌아가기</a><br/>
+    			<a th:href="@{/bookShelf}">책 목록으로 돌아가기</a><br/>
     			<img class="img-responsive shelf-book" th:src="#{adminPath}+@{/image/book/}+${book.id}+'.png'" />
     		</div>
     		

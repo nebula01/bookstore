@@ -3,6 +3,7 @@ package com.bookstore.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +35,7 @@ import com.bookstore.domain.security.UserRole;
 import com.bookstore.service.BookService;
 import com.bookstore.service.UserService;
 import com.bookstore.service.impl.UserSecurityService;
+import com.bookstore.utility.KRConstants;
 import com.bookstore.utility.MailConstructor;
 import com.bookstore.utility.SecurityUtility;
 
@@ -220,5 +222,29 @@ public class HomeController {
 		model.addAttribute("qty", 1); //디폴트 값
 		
 		return "bookDetail";
+	}
+	
+	@RequestMapping("/myProfile")
+	public String myProfile(Model model, Principal principal) {
+		User user = userService.findByUsername(principal.getName());
+		
+		model.addAttribute("user", user);
+		
+		/*model.addAttribute("userPaymentList", user.getUserPaymentList());
+		model.addAttribute("userShippingList", user.getUserShippingList());
+		model.addAttribute("orderList", user.getOrderList());*/
+		
+		/*UserShipping userShipping = new UserShipping();
+		model.addAttribute("userShipping", userShipping);*/
+		
+		model.addAttribute("listOfCreditCards", true);
+		model.addAttribute("listOfShippingAddresses", true);
+		
+		/*List<String> stateList = KRConstants.listOfUSStatesCode;
+		Collections.sort(stateList);
+		model.addAttribute("stateList", stateList);
+		model.addAttribute("classActiveEdit", true);*/
+		
+		return "myProfile";
 	}
 }
