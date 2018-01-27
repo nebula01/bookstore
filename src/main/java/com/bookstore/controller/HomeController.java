@@ -230,9 +230,9 @@ public class HomeController {
 		
 		model.addAttribute("user", user);
 		
-		/*model.addAttribute("userPaymentList", user.getUserPaymentList());
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
 		model.addAttribute("userShippingList", user.getUserShippingList());
-		model.addAttribute("orderList", user.getOrderList());*/
+		//model.addAttribute("orderList", user.getOrderList());
 		
 		/*UserShipping userShipping = new UserShipping();
 		model.addAttribute("userShipping", userShipping);*/
@@ -240,10 +240,10 @@ public class HomeController {
 		model.addAttribute("listOfCreditCards", true);
 		model.addAttribute("listOfShippingAddresses", true);
 		
-		/*List<String> stateList = KRConstants.listOfUSStatesCode;
+		List<String> stateList = KRConstants.listOfKRStatesCode;
 		Collections.sort(stateList);
 		model.addAttribute("stateList", stateList);
-		model.addAttribute("classActiveEdit", true);*/
+		model.addAttribute("classActiveEdit", true);
 		
 		return "myProfile";
 	}

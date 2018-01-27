@@ -2,6 +2,7 @@ package com.bookstore.domain;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -40,6 +42,14 @@ public class User implements UserDetails{
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
+	
+	// 배송지 리스트
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<UserShipping> userShippingList; 
+	
+	// 사용자 결제 정보 리스트
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<UserPayment> UserPaymentList;  
 	
 	public Long getId() {
 		return id;
@@ -122,4 +132,20 @@ public class User implements UserDetails{
 	}
 	
 	
+	public List<UserShipping> getUserShippingList() {
+		return userShippingList;
+	}
+	
+	public void setUserShippingList(List<UserShipping> userShippingList) {
+		this.userShippingList = userShippingList;
+	}
+	
+	public List<UserPayment> getUserPaymentList() {
+		return UserPaymentList;
+	}
+	
+	public void setUserPaymentList(List<UserPayment> userPaymentList) {
+		UserPaymentList = userPaymentList;
+	}
+
 }
