@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1000/xhtml">
 <head th:replace="common/header :: common-header"/>
 
 <body>
@@ -150,6 +150,7 @@
                             		</li>
                             	</ol>
                             	
+                            	<!-- controller에서 받아온 값이 true일때 --> 
                             	<div th:if="${listOfCreditCards}">
                             		<form th:action="@{/setDefaultPayment}" method="post">
                             			<table class="table">

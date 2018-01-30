@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookstore.domain.Book;
 import com.bookstore.domain.User;
+import com.bookstore.domain.UserBilling;
+import com.bookstore.domain.UserPayment;
+import com.bookstore.domain.UserShipping;
 import com.bookstore.domain.security.PasswordResetToken;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
@@ -41,22 +44,22 @@ import com.bookstore.utility.SecurityUtility;
 
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
-	
+
 	@Autowired
 	private MailConstructor mailConstructor;
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserSecurityService userSecurityService;
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@RequestMapping("/")
 	public String index() {
 		return "index";
@@ -68,99 +71,91 @@ public class HomeController {
 		return "myAccount";
 	}
 
-	// 새 비밀번호 
+	// 새 비밀번호
 	@RequestMapping("/forgetPassword")
-	public String forgetPassword(
-			HttpServletRequest request,
-			@ModelAttribute("email") String email,
-			Model model
-			) {
-		
+	public String forgetPassword(HttpServletRequest request, @ModelAttribute("email") String email, Model model) {
+
 		model.addAttribute("classActiveForgetPassword", true);
-		
+
 		User user = userService.findByEmail(email);
-		
+
 		if (user == null) {
 			model.addAttribute("emailNotExist", true);
 			return "myAccount";
 		}
-		
+
 		// 새 비밀번호 만들기
 		String password = SecurityUtility.randomPassword();
-		
+
 		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
 		user.setPassword(encryptedPassword);
-		
+
 		userService.save(user);
-		
-		String token = UUID.randomUUID().toString(); 
+
+		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
-		
-		String appUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-		
-		SimpleMailMessage newEmail = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
-		
+
+		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+		SimpleMailMessage newEmail = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
+				password);
+
 		mailSender.send(newEmail);
-		
+
 		model.addAttribute("forgetPasswordEmailSent", true);
-		
-		
+
 		return "myAccount";
 	}
-	
-	@RequestMapping(value="/newUser", method = RequestMethod.POST)
-	public String newUserPost(
-			HttpServletRequest request,
-			@ModelAttribute("email") String userEmail,
-			@ModelAttribute("username") String username,
-			Model model
-			) throws Exception{
+
+	@RequestMapping(value = "/newUser", method = RequestMethod.POST)
+	public String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
+			@ModelAttribute("username") String username, Model model) throws Exception {
 		model.addAttribute("classActiveNewAccount", true);
 		model.addAttribute("email", userEmail);
 		model.addAttribute("username", username);
-		
+
 		if (userService.findByUsername(username) != null) {
 			model.addAttribute("usernameExists", true);
-			
+
 			return "myAccount";
 		}
-		
+
 		if (userService.findByEmail(userEmail) != null) {
 			model.addAttribute("emailExists", true);
-			
+
 			return "myAccount";
 		}
-		
+
 		User user = new User();
 		user.setUsername(username);
 		user.setEmail(userEmail);
-		
+
 		String password = SecurityUtility.randomPassword();
-		
+
 		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
 		user.setPassword(encryptedPassword);
-		
+
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setName("ROLE_USER");
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, role));
 		userService.createUser(user, userRoles);
-		
+
 		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
-		
-		String appUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-		
-		SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
-		
+
+		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+		SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
+				password);
+
 		mailSender.send(email);
-		
+
 		model.addAttribute("emailSent", "true");
-		
+
 		return "myAccount";
 	}
-	
 
 	@RequestMapping("/newUser")
 	public String newUser(Locale locale, @RequestParam("token") String token, Model model) {
@@ -179,71 +174,185 @@ public class HomeController {
 
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
 				userDetails.getAuthorities());
-		
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		model.addAttribute("user", user);
 
-		model.addAttribute("classActiveEdit", true); 
+		model.addAttribute("classActiveEdit", true);
 		return "myProfile";
 	}
-	
+
 	// 책 전체 목록보기
 	@RequestMapping("/bookShelf")
 	public String bookShelf(Model model) {
 		List<Book> book = bookService.findAll();
-		
+
 		model.addAttribute("bookList", book);
 		return "bookShelf";
 	}
-	
+
 	// 책 상세보기
 	@RequestMapping("/bookDetail")
 	// pathParam() url에 붙어오기 때문에 pathparam을 씀
 	public String bookDetail(@PathParam("id") Long id, Model model, Principal principal) {
-		
+
 		// 유저 로그인 여부 체크
-		if(principal != null) {
+		if (principal != null) {
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
 			model.addAttribute("user", user);
 		}
-		
+
 		// 책 상세 보기
 		Book book = bookService.findOne(id);
-		
+
 		model.addAttribute("book", book);
-		
+
 		// 판매수량을 ArrayList로 만들어줌
-		List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-		
+		List<Integer> qtyList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
 		model.addAttribute("qtyList", qtyList);
-		
-		model.addAttribute("qty", 1); //디폴트 값
-		
+
+		model.addAttribute("qty", 1); // 디폴트 값
+
 		return "bookDetail";
 	}
-	
+
+	// 사용자 프로필
 	@RequestMapping("/myProfile")
 	public String myProfile(Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
-		
+
 		model.addAttribute("user", user);
-		
+
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
 		model.addAttribute("userShippingList", user.getUserShippingList());
-		//model.addAttribute("orderList", user.getOrderList());
-		
-		/*UserShipping userShipping = new UserShipping();
-		model.addAttribute("userShipping", userShipping);*/
-		
+		// model.addAttribute("orderList", user.getOrderList());
+
+		/*
+		 * UserShipping userShipping = new UserShipping();
+		 * model.addAttribute("userShipping", userShipping);
+		 */
+
 		model.addAttribute("listOfCreditCards", true);
 		model.addAttribute("listOfShippingAddresses", true);
-		
+
 		List<String> stateList = KRConstants.listOfKRStatesCode;
 		Collections.sort(stateList);
 		model.addAttribute("stateList", stateList);
 		model.addAttribute("classActiveEdit", true);
+
+		return "myProfile";
+	}
+
+	// 사용자 프로필에서 카드정보
+	@RequestMapping("/listOfCreditCards")
+	public String listOfCreditCards(Model model, Principal principal, HttpServletRequest req) {
+
+		User user = userService.findByUsername(principal.getName());
+
+		model.addAttribute("user", user);
+
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+		model.addAttribute("userShippingList", user.getUserShippingList());
+
+		// model.addAttribute("orderList", user.OrderList());
+
+		model.addAttribute("listOfCreditCards", true);
+		model.addAttribute("listOfShippingAddresses", true);
+		model.addAttribute("classActiveBilling", true);
+
+		return "myProfile";
+
+	}
+
+	// 사용자 배송지 정보
+	@RequestMapping("/listOfShippingAddresses")
+	public String listOfShippingAddresses(Model model, Principal principal, HttpServletRequest req) {
+
+		User user = userService.findByUsername(principal.getName());
+
+		model.addAttribute("user", user);
+
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+		model.addAttribute("userShippingList", user.getUserShippingList());
+
+		// model.addAttribute("orderList", user.OrderList());
+
+		model.addAttribute("listOfCreditCards", true);
+		model.addAttribute("listOfShippingAddresses", true);
+		model.addAttribute("classActiveBilling", true);
+
+		return "myProfile";
+
+	}
+
+	@RequestMapping("/addNewCreditCard")
+	public String addNewCreditCard(Model model, Principal principal) {
+		
+		User user = userService.findByUsername(principal.getName());
+
+		model.addAttribute("user", user);
+			
+		model.addAttribute("addNewCreditCard", true);
+		
+		model.addAttribute("classActiveBilling", true);
+		
+		model.addAttribute("listOfShippingAddresses", true);
+		
+		UserBilling userBilling = new UserBilling();
+		
+		UserPayment userPayment = new UserPayment();
+		
+		// 카드 정보의 청구지 주소
+		model.addAttribute("userBilling", userBilling);
+		
+		model.addAttribute("userPayment", userPayment);
+		
+		List<String> stateList = KRConstants.listOfKRStatesCode;
+		
+		Collections.sort(stateList);
+		
+		model.addAttribute("stateList", stateList);
+		
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+		model.addAttribute("userShippingList", user.getUserShippingList());
+
+		// model.addAttribute("orderList", user.OrderList());
+		
+		return "myProfile";
+	}
+	
+	@RequestMapping("/addNewShippingAddress")
+	public String addNewShippingAddress(Model model, Principal principal) {
+		
+		User user = userService.findByUsername(principal.getName());
+
+		model.addAttribute("user", user);
+			
+		model.addAttribute("addNewShippingAddress", true);
+		
+		model.addAttribute("classActiveShipping", true);
+		
+		UserShipping userShipping = new UserShipping();
+		
+		model.addAttribute("userShipping", userShipping);
+		
+		List<String> stateList = KRConstants.listOfKRStatesCode;
+		
+		Collections.sort(stateList);
+		
+		model.addAttribute("stateList", stateList);
+		
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+		model.addAttribute("userShippingList", user.getUserShippingList());
+
+		// model.addAttribute("orderList", user.OrderList());
 		
 		return "myProfile";
 	}
