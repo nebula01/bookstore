@@ -41,7 +41,7 @@ public class BookstoreApplication implements CommandLineRunner {
 		userService.createUser(user1, userRoles);
 		
 		userRoles.clear();
-		
+		//dsadad
 		/*User user2 = new User();
 		user2.setFirstName("admin");
 		user2.setLastName("Adams");
