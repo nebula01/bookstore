@@ -79,35 +79,29 @@
 												type="text" class="form-control" id="currentPassword"
 												name="currentPassword" th:value="${currentPassword}" />
 										</div>
-										<p style="color: #828282">Enter your current password to
-											change the email address or password.</p>
+										<p style="color: #828282">이메일 또는 비밀번호 수정을 위해 현재 비밀번호를 입력하세요.</p>
 
 										<div class="form-group">
-											<label for="email">* Email Address</label> ' <input
+											<label for="email">* 이메일</label> ' <input
 												type="text" class="form-control" id="email" name="email"
 												th:value="${user.email}" />
 										</div>
-										<p style="color: #828282">A valid email address. All
-											emails from the system withll be sent to this address. The
-											email address is not made public and will only be used if you
-											wish to receive a new password or wish to receive certain
-											notification.</p>
+										<p style="color: #828282">유효한 이메일을 등록하세요. 비밀번호가 등록한 이메일로 보내집니다.</p>
 
 										<div class="form-group">
-											<label for="txtNewPassword">Password</label> ' <input
+											<label for="txtNewPassword">비밀번호</label> ' <input
 												type="password" class="form-control" id="txtNewPassword"
 												name="newPassword" />
 										</div>
 
 										<div class="form-group">
-											<label for="txtConfirmPassword">Confirm Password</label> ' <input
+											<label for="txtConfirmPassword">비밀번호 확인</label> ' <input
 												type="password" class="form-control" id="txtConfirmPassword" />
 										</div>
 										<p style="color: #828282">To change the current user
 											password, enter the new password in both fields.</p>
 
-										<button type="submit" class="btn btn-primary">Create
-											new account</button>
+										<button type="submit" class="btn btn-primary">새 계정 등록</button>
 									</form>
 								</div>
 							</div>
@@ -290,26 +284,25 @@
 																<select class="form-control" name="expiryMonth"
 																	required="required"
 																	th:value="${userPayment.expiryMonth}">
-																	<option disabled="disabled">-- Month --</option>
-																	<option value="01">Jan (01)</option>
-																	<option value="02">Feb (02)</option>
-																	<option value="03">Mar (03)</option>
-																	<option value="04">Apr (04)</option>
-																	<option value="05">May (05)</option>
-																	<option value="06">June (06)</option>
-																	<option value="07">July (07)</option>
-																	<option value="08">Aug (08)</option>
-																	<option value="09">Sep (09)</option>
-																	<option value="10">Oct (10)</option>
-																	<option value="11">Nov (11)</option>
-																	<option value="12">Dec (12)</option>
+																	<option disabled="disabled">-- 월 --</option>
+																	<option value="01">1월 (01)</option>
+																	<option value="02">2월 (02)</option>
+																	<option value="03">3월 (03)</option>
+																	<option value="04">4월 (04)</option>
+																	<option value="05">5월 (05)</option>
+																	<option value="06">6월 (06)</option>
+																	<option value="07">7월 (07)</option>
+																	<option value="08">8월 (08)</option>
+																	<option value="09">9월 (09)</option>
+																	<option value="10">10월 (10)</option>
+																	<option value="11">11월 (11)</option>
+																	<option value="12">12월 (12)</option>
 																</select>
 															</div>
 															<div class="col-xs-6">
 																<select class="form-control" name="expiryYear"
 																	th:value="${userPayment.expiryYear}">
-																	<option disabled="disabled">-- Year --</option>
-																	<option value="2017">2017</option>
+																	<option disabled="disabled">-- 년 --</option>
 																	<option value="2018">2018</option>
 																	<option value="19">2019</option>
 																	<option value="20">2020</option>
@@ -322,6 +315,7 @@
 																	<option value="27">2027</option>
 																	<option value="28">2028</option>
 																	<option value="29">2029</option>
+																	<option value="30">2030</option>
 																</select>
 															</div>
 														</div>

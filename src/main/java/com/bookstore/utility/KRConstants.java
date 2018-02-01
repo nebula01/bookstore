@@ -11,7 +11,10 @@ public class KRConstants {
 
 	public final static Map<String, String> mapOfKRStates = new HashMap<String, String>() {
 		{
-			put("", "");
+			put("서울", "SE");
+			put("울산", "UL");
+			put("부산", "BU");
+			put("경기", "KY");
 		}
 	};
 

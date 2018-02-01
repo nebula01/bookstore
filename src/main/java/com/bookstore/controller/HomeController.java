@@ -290,6 +290,7 @@ public class HomeController {
 
 	}
 
+	// 결제 카드 get 처리
 	@RequestMapping("/addNewCreditCard")
 	public String addNewCreditCard(Model model, Principal principal) {
 		
@@ -324,6 +325,35 @@ public class HomeController {
 
 		// model.addAttribute("orderList", user.OrderList());
 		
+		return "myProfile";
+	}
+	
+	// 결제 카드 post 처리
+	@RequestMapping(value = "/addNewCreditCard", method = RequestMethod.POST)
+	public String addNewCreditCardPost(
+			@ModelAttribute("userPayment") UserPayment userPayment,
+			@ModelAttribute("userBilling") UserBilling userBilling,
+			Model model, Principal principal) {
+		
+		User user = userService.findByUsername(principal.getName());
+
+		userService.updateUserBilling(userBilling, userPayment, user);
+		
+		// 사용자 정보
+		model.addAttribute("user", user);
+		
+		// 지불 수단 정보
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+		
+		// 배송 정보
+		model.addAttribute("userShippingList", user.getUserShippingList());
+		
+		model.addAttribute("listOfCreditCards", true);
+		
+		model.addAttribute("listOfShippingAddresses", true);
+		
+		model.addAttribute("classActiveBilling", true);
+				
 		return "myProfile";
 	}
 	
