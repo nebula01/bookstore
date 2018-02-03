@@ -219,8 +219,7 @@
 															th:name="userBillingState"
 															th:value="${userBilling.userBillingState}"
 															required="required">
-															<option value="" disabled="disabled">Please
-																select an option</option>
+															<option value="" disabled="disabled">지역을 선택하세요</option>
 															<option th:each="state : ${stateList}" th:text="${state}"
 																th:selected="(${userBilling.userBillingState}==${state})"></option>
 														</select>
@@ -248,11 +247,11 @@
 													<div class="form-group">
 														<label for="cardType">* 카드 타입 선택 : </label> <select
 															class="form-control" id="cardType" th:name="type"
-															th:value="${userPayment.type}" th:selected="(${userPayment.type}==${type})">
-															<option value="visa">Visa</option>
-															<option value="mastercard">Mastercard</option>
-															<option value="discover">Discover</option>
-															<option value="amex">American Express</option>
+															th:value="${userPayment.type}">
+															<option value="visa" th:selected="(${userPayment.type} == 'visa')">Visa</option>
+															<option value="mastercard" th:selected="(${userPayment.type} == 'mastercard')">Mastercard</option>
+															<option value="discover" th:selected="(${userPayment.type} == 'discover')">Discover</option>
+															<option value="amex" th:selected="(${userPayment.type} == 'amex')">American Express</option>
 														</select>
 													</div>
 													<div class="form-group">
@@ -285,37 +284,37 @@
 																	required="required"
 																	th:value="${userPayment.expiryMonth}">
 																	<option disabled="disabled">-- 월 --</option>
-																	<option value="01">1월 (01)</option>
-																	<option value="02">2월 (02)</option>
-																	<option value="03">3월 (03)</option>
-																	<option value="04">4월 (04)</option>
-																	<option value="05">5월 (05)</option>
-																	<option value="06">6월 (06)</option>
-																	<option value="07">7월 (07)</option>
-																	<option value="08">8월 (08)</option>
-																	<option value="09">9월 (09)</option>
-																	<option value="10">10월 (10)</option>
-																	<option value="11">11월 (11)</option>
-																	<option value="12">12월 (12)</option>
+																	<option value="01" th:selected="(${userPayment.expiryMonth} == '1')">1월 (01)</option>
+																	<option value="02" th:selected="(${userPayment.expiryMonth} == '2')">2월 (02)</option>
+																	<option value="03" th:selected="(${userPayment.expiryMonth} == '3')">3월 (03)</option>
+																	<option value="04" th:selected="(${userPayment.expiryMonth} == '4')">4월 (04)</option>
+																	<option value="05" th:selected="(${userPayment.expiryMonth} == '5')">5월 (05)</option>
+																	<option value="06" th:selected="(${userPayment.expiryMonth} == '6')">6월 (06)</option>
+																	<option value="07" th:selected="(${userPayment.expiryMonth} == '7')">7월 (07)</option>
+																	<option value="08" th:selected="(${userPayment.expiryMonth} == '8')">8월 (08)</option>
+																	<option value="09" th:selected="(${userPayment.expiryMonth} == '9')">9월 (09)</option>
+																	<option value="10" th:selected="(${userPayment.expiryMonth} == '10')">10월 (10)</option>
+																	<option value="11" th:selected="(${userPayment.expiryMonth} == '11')">11월 (11)</option>
+																	<option value="12" th:selected="(${userPayment.expiryMonth} == '12')">12월 (12)</option>
 																</select>
 															</div>
 															<div class="col-xs-6">
 																<select class="form-control" name="expiryYear"
 																	th:value="${userPayment.expiryYear}">
 																	<option disabled="disabled">-- 년 --</option>
-																	<option value="18">2018</option>
-																	<option value="19">2019</option>
-																	<option value="20">2020</option>
-																	<option value="21">2021</option>
-																	<option value="22">2022</option>
-																	<option value="23">2023</option>
-																	<option value="24">2024</option>
-																	<option value="25">2025</option>
-																	<option value="26">2026</option>
-																	<option value="27">2027</option>
-																	<option value="28">2028</option>
-																	<option value="29">2029</option>
-																	<option value="30">2030</option>
+																	<option value="18" th:selected="(${userPayment.expiryYear} == '18')">2018</option>
+																	<option value="19" th:selected="(${userPayment.expiryYear} == '19')">2019</option>
+																	<option value="20" th:selected="(${userPayment.expiryYear} == '20')">2020</option>
+																	<option value="21" th:selected="(${userPayment.expiryYear} == '21')">2021</option>
+																	<option value="22" th:selected="(${userPayment.expiryYear} == '22')">2022</option>
+																	<option value="23" th:selected="(${userPayment.expiryYear} == '23')">2023</option>
+																	<option value="24" th:selected="(${userPayment.expiryYear} == '24')">2024</option>
+																	<option value="25" th:selected="(${userPayment.expiryYear} == '25')">2025</option>
+																	<option value="26" th:selected="(${userPayment.expiryYear} == '26')">2026</option>
+																	<option value="27" th:selected="(${userPayment.expiryYear} == '27')">2027</option>
+																	<option value="28" th:selected="(${userPayment.expiryYear} == '28')">2028</option>
+																	<option value="29" th:selected="(${userPayment.expiryYear} == '29')">2029</option>
+																	<option value="30" th:selected="(${userPayment.expiryYear} == '30')">2030</option>
 																</select>
 															</div>
 														</div>
