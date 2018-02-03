@@ -36,6 +36,7 @@ import com.bookstore.domain.security.PasswordResetToken;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.service.BookService;
+import com.bookstore.service.UserPaymentService;
 import com.bookstore.service.UserService;
 import com.bookstore.service.impl.UserSecurityService;
 import com.bookstore.utility.KRConstants;
@@ -60,6 +61,9 @@ public class HomeController {
 	@Autowired
 	private BookService bookService;
 
+	@Autowired
+	private UserPaymentService userPaymentService;
+	
 	@RequestMapping("/")
 	public String index() {
 		return "index";
@@ -387,5 +391,43 @@ public class HomeController {
 		// model.addAttribute("orderList", user.OrderList());
 		
 		return "myProfile";
+	}
+	
+	// 카드 정보 수정
+	@RequestMapping("/updateCreditCard")
+	public String updateCreditCard(
+			@ModelAttribute("id") Long id,
+			Principal principal, Model model) {
+		
+		User user = userService.findByUsername(principal.getName());
+
+		UserPayment userPayment = userPaymentService.findById(id);
+		
+		// 로그인한 사용자와 구매정보 사용자가 일치 하지 않으면
+		if (user.getId() !=  userPayment.getUser().getId()) {
+			return "badRequestPage";
+		} else { //일치할 경우
+			model.addAttribute("user", user);
+			UserBilling userBilling = userPayment.getUserBilling();
+			model.addAttribute("userPayment", userPayment);
+			model.addAttribute("userBilling", userBilling);
+			
+			List<String> stateList = KRConstants.listOfKRStatesCode;
+			Collections.sort(stateList);
+			
+			model.addAttribute("stateList", stateList);
+			
+			model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+			model.addAttribute("userShippingList", user.getUserShippingList());
+
+			model.addAttribute("addNewCreditCard", true);
+			
+			model.addAttribute("classActiveBilling", true);
+			
+			model.addAttribute("listOfShippingAddresses", true);
+			
+			return "myProfile";
+		}
 	}
 }

@@ -12,6 +12,13 @@
 
 <link href="/css/non-responsive.css" rel="stylesheet" />
 
+<!-- 폰트 아이콘 추가 -->
+<link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+<!-- 테이블 css -->
+<link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+
 <!-- tinymce 편집기-->
 <script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
 <script>tinyMCE.init({ mode:'textareas',  language: "ko_KR" });</script> 
@@ -68,9 +75,15 @@
 	</div>
 
 	<div th:fragment="body-bottom-scripts">
-		<script
+		<!-- <script
 			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script> -->
+		<script th:src="@{/js/jquery.min.js}"></script>
 		<script src="/js/bootstrap.min.js"></script>
+	
+		<!-- 데이터 테이블 스크립트 -->
+		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
 	</div>
 </body>
 </html>
