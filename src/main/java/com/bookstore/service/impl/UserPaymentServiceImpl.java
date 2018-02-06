@@ -20,4 +20,10 @@ public class UserPaymentServiceImpl implements UserPaymentService {
 		return userPaymentRepository.findOne(id);
 	}
 
+	// id로 정보 삭제
+	@Override
+	public void removeById(Long id) {
+		// TODO Auto-generated method stub
+		userPaymentRepository.delete(id);
+	}
 }

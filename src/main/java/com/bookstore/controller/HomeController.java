@@ -63,7 +63,7 @@ public class HomeController {
 
 	@Autowired
 	private UserPaymentService userPaymentService;
-	
+
 	@RequestMapping("/")
 	public String index() {
 		return "index";
@@ -297,137 +297,190 @@ public class HomeController {
 	// 결제 카드 get 처리
 	@RequestMapping("/addNewCreditCard")
 	public String addNewCreditCard(Model model, Principal principal) {
-		
+
 		User user = userService.findByUsername(principal.getName());
 
 		model.addAttribute("user", user);
-			
+
 		model.addAttribute("addNewCreditCard", true);
-		
+
 		model.addAttribute("classActiveBilling", true);
-		
+
 		model.addAttribute("listOfShippingAddresses", true);
-		
+
 		UserBilling userBilling = new UserBilling();
-		
+
 		UserPayment userPayment = new UserPayment();
-		
+
 		// 카드 정보의 청구지 주소
 		model.addAttribute("userBilling", userBilling);
-		
+
 		model.addAttribute("userPayment", userPayment);
-		
+
 		List<String> stateList = KRConstants.listOfKRStatesCode;
-		
+
 		Collections.sort(stateList);
-		
+
 		model.addAttribute("stateList", stateList);
-		
+
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
 
 		model.addAttribute("userShippingList", user.getUserShippingList());
 
 		// model.addAttribute("orderList", user.OrderList());
-		
+
 		return "myProfile";
 	}
-	
+
 	// 결제 카드 post 처리
 	@RequestMapping(value = "/addNewCreditCard", method = RequestMethod.POST)
-	public String addNewCreditCardPost(
-			@ModelAttribute("userPayment") UserPayment userPayment,
-			@ModelAttribute("userBilling") UserBilling userBilling,
-			Model model, Principal principal) {
-		
+	public String addNewCreditCardPost(@ModelAttribute("userPayment") UserPayment userPayment,
+			@ModelAttribute("userBilling") UserBilling userBilling, Model model, Principal principal) {
+
 		User user = userService.findByUsername(principal.getName());
 
 		userService.updateUserBilling(userBilling, userPayment, user);
-		
+
 		// 사용자 정보
 		model.addAttribute("user", user);
-		
+
 		// 지불 수단 정보
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
-		
+
 		// 배송 정보
 		model.addAttribute("userShippingList", user.getUserShippingList());
-		
+
 		model.addAttribute("listOfCreditCards", true);
-		
+
 		model.addAttribute("listOfShippingAddresses", true);
-		
+
 		model.addAttribute("classActiveBilling", true);
-				
+
 		return "myProfile";
 	}
-	
+
 	@RequestMapping("/addNewShippingAddress")
 	public String addNewShippingAddress(Model model, Principal principal) {
-		
+
 		User user = userService.findByUsername(principal.getName());
 
 		model.addAttribute("user", user);
-			
+
 		model.addAttribute("addNewShippingAddress", true);
-		
+
 		model.addAttribute("classActiveShipping", true);
-		
+
 		model.addAttribute("listOfCreditCards", true);
-		
+
 		UserShipping userShipping = new UserShipping();
-		
+
 		model.addAttribute("userShipping", userShipping);
-		
+
 		List<String> stateList = KRConstants.listOfKRStatesCode;
-		
+
 		Collections.sort(stateList);
-		
+
 		model.addAttribute("stateList", stateList);
-		
+
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
 
 		model.addAttribute("userShippingList", user.getUserShippingList());
 
 		// model.addAttribute("orderList", user.OrderList());
-		
+
 		return "myProfile";
 	}
-	
+
 	// 카드 정보 수정
 	@RequestMapping("/updateCreditCard")
-	public String updateCreditCard(
-			@ModelAttribute("id") Long id,
-			Principal principal, Model model) {
-		
+	public String updateCreditCard(@ModelAttribute("id") Long id, Principal principal, Model model) {
+
 		User user = userService.findByUsername(principal.getName());
 
 		UserPayment userPayment = userPaymentService.findById(id);
-		
+
 		// 로그인한 사용자와 구매정보 사용자가 일치 하지 않으면
-		if (user.getId() !=  userPayment.getUser().getId()) {
+		if (user.getId() != userPayment.getUser().getId()) {
 			return "badRequestPage";
-		} else { //일치할 경우
+		} else { // 일치할 경우
 			model.addAttribute("user", user);
 			UserBilling userBilling = userPayment.getUserBilling();
 			model.addAttribute("userPayment", userPayment);
 			model.addAttribute("userBilling", userBilling);
-			
+
 			List<String> stateList = KRConstants.listOfKRStatesCode;
 			Collections.sort(stateList);
-			
+
 			model.addAttribute("stateList", stateList);
-			
+
 			model.addAttribute("userPaymentList", user.getUserPaymentList());
 
 			model.addAttribute("userShippingList", user.getUserShippingList());
 
 			model.addAttribute("addNewCreditCard", true);
-			
+
 			model.addAttribute("classActiveBilling", true);
-			
+
 			model.addAttribute("listOfShippingAddresses", true);
-			
+
 			return "myProfile";
 		}
+	}
+
+	// 카드 정보 삭제
+	@RequestMapping("/removeCreditCard")
+	public String removeCreditCard(@ModelAttribute("id") Long id, Principal principal, Model model) {
+
+		User user = userService.findByUsername(principal.getName());
+
+		UserPayment userPayment = userPaymentService.findById(id);
+
+		// 로그인한 사용자와 구매정보 사용자가 일치 하지 않으면
+		if (user.getId() != userPayment.getUser().getId()) {
+			return "badRequestPage";
+		} else { // 일치할 경우
+
+			model.addAttribute("user", user);
+
+			// id로 삭제
+			userPaymentService.removeById(id);
+
+			model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+			model.addAttribute("userShippingList", user.getUserShippingList());
+
+			// model.addAttribute("addNewCreditCard", true); 삭제이기 때문에 addNew는 보내지 않음
+
+			model.addAttribute("listOfCreditCards", true);
+
+			model.addAttribute("classActiveBilling", true);
+
+			model.addAttribute("listOfShippingAddresses", true);
+
+			return "myProfile";
+		}
+	}
+
+	@RequestMapping(value = "/setDefaultPayment", method = RequestMethod.POST)
+	// form에서 속성 name 주의
+	public String setDefaultPayment(@ModelAttribute("defaultUserPaymentId") Long id, Principal principal, Model model) {
+		
+		User user = userService.findByUsername(principal.getName());
+		
+		userService.setUserDefaultPayment(id, user);
+		
+		model.addAttribute("user", user);
+		
+		model.addAttribute("userPaymentList", user.getUserPaymentList());
+
+		model.addAttribute("userShippingList", user.getUserShippingList());
+
+		model.addAttribute("listOfCreditCards", true);
+
+		model.addAttribute("classActiveBilling", true);
+
+		model.addAttribute("listOfShippingAddresses", true);
+	
+		return "myProfile";
 	}
 }
