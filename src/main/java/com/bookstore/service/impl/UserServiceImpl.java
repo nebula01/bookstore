@@ -106,14 +106,15 @@ public class UserServiceImpl implements UserService {
 		for (UserPayment userPayment : userPaymentList) {
 			if (userPayment.getId() == id) { // 구매수단 정보 중 현재 선택한 id와 같을 경우에만
 				// 사용자 구매정보 수단중 setDefaultPayment 속성 true
-				System.out.println(userPayment.getId());
-				System.out.println(id);
+				//System.out.println(userPayment.getId());
+				//System.out.println(id);
 				userPayment.setDefaultPayment(true);
-				// 디비에 저장
-				userPaymentRepository.save(userPayment);
+				
 			} else { // 그 밖에는 false
 				userPayment.setDefaultPayment(false);
 			}
+			// 디비에 저장 (위치 주의)
+			userPaymentRepository.save(userPayment);
 		}
 	}
 }
