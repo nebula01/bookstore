@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import com.bookstore.domain.User;
 import com.bookstore.domain.UserBilling;
 import com.bookstore.domain.UserPayment;
+import com.bookstore.domain.UserShipping;
 import com.bookstore.domain.security.PasswordResetToken;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.repository.PasswordResetTokenRepository;
 import com.bookstore.repository.RoleRepository;
 import com.bookstore.repository.UserPaymentRepository;
 import com.bookstore.repository.UserRepository;
+import com.bookstore.repository.UserShippingRepository;
 import com.bookstore.service.UserService;
 
 @Service
@@ -36,6 +38,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserPaymentRepository userPaymentRepository;
 
+	@Autowired
+	private UserShippingRepository userShippingRepository;
+	
 	@Override
 	public PasswordResetToken getPasswordResetToken(final String token) {
 		return passwordResetTokenRepository.findByToken(token);
@@ -106,15 +111,44 @@ public class UserServiceImpl implements UserService {
 		for (UserPayment userPayment : userPaymentList) {
 			if (userPayment.getId() == id) { // 구매수단 정보 중 현재 선택한 id와 같을 경우에만
 				// 사용자 구매정보 수단중 setDefaultPayment 속성 true
-				//System.out.println(userPayment.getId());
-				//System.out.println(id);
+				// System.out.println(userPayment.getId());
+				// System.out.println(id);
 				userPayment.setDefaultPayment(true);
-				
+
 			} else { // 그 밖에는 false
 				userPayment.setDefaultPayment(false);
 			}
 			// 디비에 저장 (위치 주의)
 			userPaymentRepository.save(userPayment);
+		}
+	}
+
+	@Override
+	public void updateUserShipping(UserShipping userShipping, User user) {
+		// TODO Auto-generated method stub
+		userShipping.setUser(user);
+		userShipping.setUserShippingDefault(true);
+		user.getUserShippingList().add(userShipping);
+
+		// 디비에 저장
+		save(user);
+	}
+
+	@Override
+	public void setUserDefaultShipping(Long id, User user) {
+		// TODO Auto-generated method stub
+		// 사용자의 모든 배송지 정보를 찾음
+		List<UserShipping> userShippingList = (List<UserShipping>) userShippingRepository.findAll();
+
+		for (UserShipping userShipping : userShippingList) {
+			if (userShipping.getId() == id) { // 구매수단 정보 중 현재 선택한 id와 같을 경우에만
+				userShipping.setUserShippingDefault(true);
+
+			} else { // 그 밖에는 false
+				userShipping.setUserShippingDefault(false);
+			}
+			// 디비에 저장 (위치 주의)
+			userShippingRepository.save(userShipping);
 		}
 	}
 }

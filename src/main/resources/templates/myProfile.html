@@ -6,23 +6,23 @@
 	<div th:replace="common/header :: navbar" />
 
 	<div class="container">
-		 <!-- <div class="row" style="margin-bottom: 0px;"> --> 
-			<div class="col-xs-8">
+		<!-- <div class="row" style="margin-bottom: 0px;"> -->
+		<div class="col-xs-8">
+			<h2 class="section-headline">
 				<h2 class="section-headline">
-					<h2 class="section-headline">
-						<span th:text="${#strings.toUpperCase(user.username)}"></span>
-					</h2>
+					<span th:text="${#strings.toUpperCase(user.username)}"></span>
 				</h2>
-			</div>
-			<div class="col-xs-4">
-				<img src="/image/logo.png" class="img-responsive" />
-			</div>
-		<!-- </div> --> 
+			</h2>
+		</div>
+		<div class="col-xs-4">
+			<img src="/image/logo.png" class="img-responsive" />
+		</div>
+		<!-- </div> -->
 		<hr
 			style="position: absolute; width: 87.5%; height: 6px; background-color: #333; z-index: -1; margin-top: 100px;" />
 		<img class="img-responsive" src="/image/wood.png"
 			style="margin-top: -75px;" />
-		
+
 		<div class="row" style="margin-top: 60px;">
 			<div class="col-xs-9 col-xs-offset-3">
 
@@ -79,14 +79,16 @@
 												type="text" class="form-control" id="currentPassword"
 												name="currentPassword" th:value="${currentPassword}" />
 										</div>
-										<p style="color: #828282">이메일 또는 비밀번호 수정을 위해 현재 비밀번호를 입력하세요.</p>
+										<p style="color: #828282">이메일 또는 비밀번호 수정을 위해 현재 비밀번호를
+											입력하세요.</p>
 
 										<div class="form-group">
-											<label for="email">* 이메일</label> ' <input
-												type="text" class="form-control" id="email" name="email"
+											<label for="email">* 이메일</label> ' <input type="text"
+												class="form-control" id="email" name="email"
 												th:value="${user.email}" />
 										</div>
-										<p style="color: #828282">유효한 이메일을 등록하세요. 비밀번호가 등록한 이메일로 보내집니다.</p>
+										<p style="color: #828282">유효한 이메일을 등록하세요. 비밀번호가 등록한 이메일로
+											보내집니다.</p>
 
 										<div class="form-group">
 											<label for="txtNewPassword">비밀번호</label> ' <input
@@ -176,7 +178,7 @@
 											<div class="form-group">
 												<h5>* 결제 카드 이름:</h5>
 												<input type="text" class="form-control" id="cardName"
-													placeHolder="Card Name" th:name="cardName"
+													placeHolder="카드 이름" th:name="cardName"
 													required="required" th:value="${userPayment.cardName}" />
 											</div>
 
@@ -189,14 +191,14 @@
 											<div class="form-group">
 												<label for="billingName">* 이름</label> <input type="text"
 													class="form-control" id="billingName"
-													placeholder="Receiver Name" th:name="userBillingName"
+													placeholder="이름" th:name="userBillingName"
 													required="required"
 													th:value="${userBilling.userBillingName}" />
 											</div>
 											<div class="form-group">
 												<label for="billingAddress">* 상세 주소</label> <input
 													type="text" class="form-control" id="billingAddress"
-													placeholder="Street Address" th:name="userBillingStreet"
+													placeholder="상세주소" th:name="userBillingStreet"
 													required="required"
 													th:value="${userBilling.userBillingStreet}" />
 											</div>
@@ -206,14 +208,14 @@
 													<div class="form-group">
 														<label for="billingCity">* 시</label> <input type="text"
 															class="form-control" id="billingCity"
-															placeholder="Billing city" th:name="userBillingCity"
+															placeholder="시" th:name="userBillingCity"
 															required="required"
 															th:value="${userBilling.userBillingCity}" />
 													</div>
 												</div>
 												<div class="col-xs-4">
 													<div class="form-group">
-														<label for="billingState">* State</label> <select
+														<label for="billingState">* 도 / 특별시 / 광역시</label> <select
 															id="billingState" class="form-control"
 															th:name="userBillingState"
 															th:value="${userBilling.userBillingState}"
@@ -228,7 +230,7 @@
 													<div class="form-group">
 														<label for="billingZipcode">* 우편번호</label> <input
 															type="text" class="form-control" id="billingZipcode"
-															placeholder="Billing Zipcode"
+															placeholder="우편번호"
 															th:name="userBillingZipcode" required="required"
 															th:value="${userBilling.userBillingZipcode}" />
 													</div>
@@ -247,23 +249,28 @@
 														<label for="cardType">* 카드 타입 선택 : </label> <select
 															class="form-control" id="cardType" th:name="type"
 															th:value="${userPayment.type}">
-															<option value="visa" th:selected="(${userPayment.type} == 'visa')">Visa</option>
-															<option value="mastercard" th:selected="(${userPayment.type} == 'mastercard')">Mastercard</option>
-															<option value="discover" th:selected="(${userPayment.type} == 'discover')">Discover</option>
-															<option value="amex" th:selected="(${userPayment.type} == 'amex')">American Express</option>
+															<option value="visa"
+																th:selected="(${userPayment.type} == 'visa')">Visa</option>
+															<option value="mastercard"
+																th:selected="(${userPayment.type} == 'mastercard')">Mastercard</option>
+															<option value="discover"
+																th:selected="(${userPayment.type} == 'discover')">Discover</option>
+															<option value="amex"
+																th:selected="(${userPayment.type} == 'amex')">American
+																Express</option>
 														</select>
 													</div>
 													<div class="form-group">
 														<label for="cardHolder">* 카드 소유자 이름 :</label> <input
 															type="text" class="form-control" id="cardHolder"
-															required="required" placeHolder="Card Holder Name"
+															required="required" placeHolder="카드 소유자"
 															th:name="holderName" th:value="${userPayment.holderName}" />
 													</div>
 													<div class="form-group">
 														<label for="cardNumber">* 카드 번호:</label>
 														<div class="input-group">
 															<input type="tel" class="form-control" id="cardNumber"
-																required="required" placeHolder="Valid Card Number"
+																required="required" placeHolder="유효한 카드 번호"
 																th:name="cardNumber"
 																th:value="${userPayment.cardNumber}" /> <span
 																class="input-group-addon"><i
@@ -283,37 +290,74 @@
 																	required="required"
 																	th:value="${userPayment.expiryMonth}">
 																	<option disabled="disabled">-- 월 --</option>
-																	<option value="01" th:selected="(${userPayment.expiryMonth} == '1')">1월 (01)</option>
-																	<option value="02" th:selected="(${userPayment.expiryMonth} == '2')">2월 (02)</option>
-																	<option value="03" th:selected="(${userPayment.expiryMonth} == '3')">3월 (03)</option>
-																	<option value="04" th:selected="(${userPayment.expiryMonth} == '4')">4월 (04)</option>
-																	<option value="05" th:selected="(${userPayment.expiryMonth} == '5')">5월 (05)</option>
-																	<option value="06" th:selected="(${userPayment.expiryMonth} == '6')">6월 (06)</option>
-																	<option value="07" th:selected="(${userPayment.expiryMonth} == '7')">7월 (07)</option>
-																	<option value="08" th:selected="(${userPayment.expiryMonth} == '8')">8월 (08)</option>
-																	<option value="09" th:selected="(${userPayment.expiryMonth} == '9')">9월 (09)</option>
-																	<option value="10" th:selected="(${userPayment.expiryMonth} == '10')">10월 (10)</option>
-																	<option value="11" th:selected="(${userPayment.expiryMonth} == '11')">11월 (11)</option>
-																	<option value="12" th:selected="(${userPayment.expiryMonth} == '12')">12월 (12)</option>
+																	<option value="01"
+																		th:selected="(${userPayment.expiryMonth} == '1')">1월
+																		(01)</option>
+																	<option value="02"
+																		th:selected="(${userPayment.expiryMonth} == '2')">2월
+																		(02)</option>
+																	<option value="03"
+																		th:selected="(${userPayment.expiryMonth} == '3')">3월
+																		(03)</option>
+																	<option value="04"
+																		th:selected="(${userPayment.expiryMonth} == '4')">4월
+																		(04)</option>
+																	<option value="05"
+																		th:selected="(${userPayment.expiryMonth} == '5')">5월
+																		(05)</option>
+																	<option value="06"
+																		th:selected="(${userPayment.expiryMonth} == '6')">6월
+																		(06)</option>
+																	<option value="07"
+																		th:selected="(${userPayment.expiryMonth} == '7')">7월
+																		(07)</option>
+																	<option value="08"
+																		th:selected="(${userPayment.expiryMonth} == '8')">8월
+																		(08)</option>
+																	<option value="09"
+																		th:selected="(${userPayment.expiryMonth} == '9')">9월
+																		(09)</option>
+																	<option value="10"
+																		th:selected="(${userPayment.expiryMonth} == '10')">10월
+																		(10)</option>
+																	<option value="11"
+																		th:selected="(${userPayment.expiryMonth} == '11')">11월
+																		(11)</option>
+																	<option value="12"
+																		th:selected="(${userPayment.expiryMonth} == '12')">12월
+																		(12)</option>
 																</select>
 															</div>
 															<div class="col-xs-6">
 																<select class="form-control" name="expiryYear"
 																	th:value="${userPayment.expiryYear}">
 																	<option disabled="disabled">-- 년 --</option>
-																	<option value="18" th:selected="(${userPayment.expiryYear} == '18')">2018</option>
-																	<option value="19" th:selected="(${userPayment.expiryYear} == '19')">2019</option>
-																	<option value="20" th:selected="(${userPayment.expiryYear} == '20')">2020</option>
-																	<option value="21" th:selected="(${userPayment.expiryYear} == '21')">2021</option>
-																	<option value="22" th:selected="(${userPayment.expiryYear} == '22')">2022</option>
-																	<option value="23" th:selected="(${userPayment.expiryYear} == '23')">2023</option>
-																	<option value="24" th:selected="(${userPayment.expiryYear} == '24')">2024</option>
-																	<option value="25" th:selected="(${userPayment.expiryYear} == '25')">2025</option>
-																	<option value="26" th:selected="(${userPayment.expiryYear} == '26')">2026</option>
-																	<option value="27" th:selected="(${userPayment.expiryYear} == '27')">2027</option>
-																	<option value="28" th:selected="(${userPayment.expiryYear} == '28')">2028</option>
-																	<option value="29" th:selected="(${userPayment.expiryYear} == '29')">2029</option>
-																	<option value="30" th:selected="(${userPayment.expiryYear} == '30')">2030</option>
+																	<option value="18"
+																		th:selected="(${userPayment.expiryYear} == '18')">2018</option>
+																	<option value="19"
+																		th:selected="(${userPayment.expiryYear} == '19')">2019</option>
+																	<option value="20"
+																		th:selected="(${userPayment.expiryYear} == '20')">2020</option>
+																	<option value="21"
+																		th:selected="(${userPayment.expiryYear} == '21')">2021</option>
+																	<option value="22"
+																		th:selected="(${userPayment.expiryYear} == '22')">2022</option>
+																	<option value="23"
+																		th:selected="(${userPayment.expiryYear} == '23')">2023</option>
+																	<option value="24"
+																		th:selected="(${userPayment.expiryYear} == '24')">2024</option>
+																	<option value="25"
+																		th:selected="(${userPayment.expiryYear} == '25')">2025</option>
+																	<option value="26"
+																		th:selected="(${userPayment.expiryYear} == '26')">2026</option>
+																	<option value="27"
+																		th:selected="(${userPayment.expiryYear} == '27')">2027</option>
+																	<option value="28"
+																		th:selected="(${userPayment.expiryYear} == '28')">2028</option>
+																	<option value="29"
+																		th:selected="(${userPayment.expiryYear} == '29')">2029</option>
+																	<option value="30"
+																		th:selected="(${userPayment.expiryYear} == '30')">2030</option>
 																</select>
 															</div>
 														</div>
@@ -329,13 +373,129 @@
 												</div>
 											</div>
 											<hr />
-											<button type="submit" class="btn btn-primary btn-lg">모두 저장</button>
+											<button type="submit" class="btn btn-primary btn-lg">모두
+												저장</button>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
+					<!-- 배송 정보 -->
+					<div class="tab-pane fade" id="tab-4"
+						th:classappend="${classActiveShipping}? 'in active'">
+						<div class="panel-group">
+							<div class="panel panel-default" style="border: none;">
+								<div class="panel-body"
+									style="background-color: #ededed; margin-top: 20px;">
+								<ol class="breadcrumb">
+										<li class="breadcrumb-item active"><a
+											th:href="@{/listOfShippingAddresses}"
+											th:style="${listOfShippingAddresses}? 'color:red'">배송지 주소 목록</a></li>
+										<li class="breadcrumb-item active"><a
+											th:href="@{/addNewShippingAddress}"
+											th:style="${addNewShippingAddress}? 'color:red'">배송지 주소 추가 또는 수정</a></li>
+									</ol>
+
+									<div th:if="${listOfShippingAddresses}">
+										<form th:action="@{/setDefaultShippingAddress}" method="post">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>기본 선택 주소</th>
+														<th>배송지 주소</th>
+														<th>수정 또는 삭제</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="userShipping : ${userShippingList}">
+														<td><input type="radio" name="defaultShippingAddressId"
+															th:value="${userShipping.id}"
+															th:checked="${userShipping.userShippingDefault}" /><span>기본 주소</span></td>
+														<td th:text="${userShipping.userShippingStreet}+', '+
+														${userShipping.userShippingCity}+', '+${userShipping.userShippingState}"></td>
+														<td><a
+															th:href="@{/updateUserShipping(id=${userShipping.id})}"><i
+																class="fa fa-pencil"></i><span>수정</span></a>&nbsp;&nbsp;<a
+															th:href="@{/removeUserShipping(id=${userShipping.id})}"><i
+																class="fa fa-times"></i><span>삭제</span></a></td>
+													</tr>
+												</tbody>
+											</table>
+											<button class="btn btn-primary" type="submit">저장</button>
+										</form>
+									</div>
+
+									<div th:if="${addNewShippingAddress}">
+										<form th:action="@{/addNewShippingAddress}" method="post">
+											<div class="bg-info" th:if="${updateUserShippingInfo}">사용자 정보 수정.</div>
+
+											<input hidden="hidden" name="id" th:value="${userShipping.id}" />
+
+											<!-- Shipping Address -->
+											<hr />
+											<div class="form-group">
+												<h4>베송지 주소</h4>
+											</div>
+											<div class="form-group">
+												<label for="shippingName">* 받는 사람</label> <input type="text"
+													class="form-control" id="shippingName"
+													placeholder="받는 사람" th:name="userShippingName"
+													required="required"
+													th:value="${userShipping.userShippingName}" />
+											</div>
+											<div class="form-group">
+												<label for="shippingAddress">* 상세 주소</label> <input
+													type="text" class="form-control" id="shippingAddress"
+													placeholder="상세 주소" th:name="userShippingStreet"
+													required="required"
+													th:value="${userShipping.userShippingStreet}" /> 
+											</div>
+
+											<div class="row">
+												<div class="col-xs-4">
+													<div class="form-group">
+														<label for="shippingCity">* 시</label> <input type="text"
+															class="form-control" id="shippingCity"
+															placeholder="시" th:name="userShippingCity"
+															required="required"
+															th:value="${userShipping.userShippingCity}" />
+													</div>
+												</div>
+												<div class="col-xs-4">
+													<div class="form-group">
+														<label for="shippingState">* 도 / 특별시 / 광역시 </label> <select
+															id="shippingState" class="form-control"
+															th:name="userShippingState"
+															th:value="${userShipping.userShippingState}"
+															required="required">
+															<option value="" disabled="disabled">지역을 선택하세요.</option>
+															<option th:each="state : ${stateList}" th:text="${state}"
+																th:selected="(${userShipping.userShippingState}==${state})"></option>
+														</select>
+													</div>
+												</div>
+												<div class="col-xs-4">
+													<div class="form-group">
+														<label for="shippingZipcode">* 우편번호</label> <input
+															type="text" class="form-control" id="shippingZipcode"
+															placeholder="우편번호"
+															th:name="userShippingZipcode" required="required"
+															th:value="${userShipping.userShippingZipcode}" />
+													</div>
+												</div>
+											</div>
+
+											<hr />
+											<button type="submit" class="btn btn-primary btn-lg">모두 저장</button>
+										</form>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
