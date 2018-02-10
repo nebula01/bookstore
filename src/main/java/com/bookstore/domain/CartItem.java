@@ -28,7 +28,7 @@ public class CartItem {
 
 	@OneToMany(mappedBy = "cartItem") // 하나의 아이템 박스는 여러개의 리스트에 
 	@JsonIgnore
-	//private List<BookToCartItem> bookToCartItemList;
+	private List<BookToCartItem> bookToCartItemList;
 
 	@ManyToOne // 여러개의 아이템박스는 하나의 장바구니에
 	@JoinColumn(name = "shopping_cart_id")

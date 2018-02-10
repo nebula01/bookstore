@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user_order")
+@Table(name = "user_order")
 public class Order {
 
 	@Id
@@ -31,13 +31,13 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<CartItem> cartItemList;
 
-	/*
-	 * @OneToOne(cascade = CascadeType.ALL) private ShippingAddress shippingAddress;
-	 * 
-	 * @OneToOne(cascade = CascadeType.ALL) private Payment payment;
-	 */
-	
-	// 여러 개의 주문은 한명의 유저에 
+	@OneToOne(cascade = CascadeType.ALL)
+	private ShippingAddress shippingAddress;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Payment payment;
+
+	// 여러 개의 주문은 한명의 유저에
 	@ManyToOne
 	private User user;
 
