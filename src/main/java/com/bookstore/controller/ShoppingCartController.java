@@ -32,13 +32,15 @@ public class ShoppingCartController {
 	public String shoppingCart(Model model, Principal principal) {
 		
 		User user = userService.findByUsername(principal.getName());
+		System.out.println(user.getUsername());
 		
 		ShoppingCart shoppingCart = user.getShoppingCart();
-		
+		System.out.println(shoppingCart);
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
 		shoppingCartService.updateShoppingCart(shoppingCart);
 		
+		model.addAttribute("user", user);
 		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("shoppingCart", shoppingCart);
 		

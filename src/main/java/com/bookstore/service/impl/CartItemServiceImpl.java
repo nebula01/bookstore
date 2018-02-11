@@ -30,7 +30,10 @@ public class CartItemServiceImpl implements CartItemService {
 		BigDecimal bigDecimal = new BigDecimal(cartItem.getBook().getOurPrice())
 				.multiply(new BigDecimal(cartItem.getQty()));
 		
+		bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+		cartItem.setSubtotal(bigDecimal);
 		
+		cartItemRepository.save(cartItem);
 		
 		return cartItem;
 	}
