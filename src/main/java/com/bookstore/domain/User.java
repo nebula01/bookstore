@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,6 +51,10 @@ public class User implements UserDetails{
 	// 사용자 결제 정보 리스트
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserPayment> UserPaymentList;  
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private ShoppingCart shoppingCart;
+	
 	
 	public Long getId() {
 		return id;
@@ -147,5 +152,10 @@ public class User implements UserDetails{
 	public void setUserPaymentList(List<UserPayment> userPaymentList) {
 		UserPaymentList = userPaymentList;
 	}
-
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
 }
