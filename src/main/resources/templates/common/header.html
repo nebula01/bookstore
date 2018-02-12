@@ -61,7 +61,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<!-- 헤드부분 로그인 했을 경우와 안했을 경우 -->
-						<li><a th:href="@{/shoppingCart/cart}">SHOPPING CART</a></li>
+						<li><a th:href="@{/shoppingCart/cart}">장바구니</a></li>
 						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">MY
 								ACCOUNT</a></li>
 						<li><a sec:authorize="isAuthenticated()"
