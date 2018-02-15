@@ -17,4 +17,10 @@ public interface CartItemService {
 
 	// 장바구니에 추가될 아이템 
 	CartItem addBookToCartItem(Book book, User user, int qty);
+
+	// 아이템 id로 찾기
+	CartItem findById(Long id);
+	
+	// 아이템 객체로 삭제
+	void removeCartItem(CartItem cartItem);
 }

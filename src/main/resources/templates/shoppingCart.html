@@ -74,6 +74,8 @@
 								</p>
 								<p th:if="${cartItem.book.inStockNumber==0}"
 									style="color: darkred;">구매 불가, 재고 없음</p>
+								<!-- 삭제 -->
+								<a th:href="@{/shoppingCart/removeItem?id=}+${cartItem.id}">카트에서 삭제</a>
 							</div>
 
 							<div class="col-xs-2">

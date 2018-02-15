@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookstore.domain.Book;
 import com.bookstore.domain.CartItem;
@@ -77,5 +78,24 @@ public class ShoppingCartController {
 		model.addAttribute("addBookSuccess", true);
 		
 		return "forward:/bookDetail?id="+book.getId();
+	}
+	
+	@RequestMapping("/updateCartItem")
+	public String updateShoppingCart(
+			@ModelAttribute("id") Long id,
+			@ModelAttribute("qty") int qty
+			) {
+		CartItem cartItem = cartItemService.findById(id);
+		cartItem.setQty(qty);
+		cartItemService.updateCartItem(cartItem);
+		
+		return "forward:/shoppingCart/cart";
+	}
+	
+	@RequestMapping("/removeItem")
+	public String removeItem(@RequestParam("id") Long id) {
+		cartItemService.removeCartItem(cartItemService.findById(id));
+		
+		return "forward:/shoppingCart/cart";
 	}
 }
