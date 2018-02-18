@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<div th:replace="common/header :: navbar" />
+
+	<div class="container">
+		<!-- <div class="row" style="margin-bottom: -100px;"> -->
+		<div class="col-xs-8">
+			<h2 class="section-headline">
+				<span>구매 정보</span>
+			</h2>
+		</div>
+		<div class="col-xs-4">
+			<img src="/image/logo.png" class="img-responsive" />
+		</div>
+		<!-- </div> -->
+		<hr
+			style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: 100px;" />
+		<img class="img-responsive" src="/image/wood.png"
+			style="margin-top: -75px; z-index: -1" />
+
+		<div class="row" style="margin-top: 10px;">
+			<form th:action="@{/checkout}" method="post">
+				<div class="col-xs-4">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<button type="submit" class="btn btn-warning btn-block">주문하기</button>
+							<p style="font-size: smaller;">
+								주문을 완료하시려면 <a href="#">개인정보보호</a>및 <a href="#">약관</a>에 동의하셔야
+								합니다.
+							</p>
+							<hr />
+							<h3>주문 요약</h3>
+							<div class="row">
+								<div class="col-xs-7 text-left">배송비 포함 전 :</div>
+								<div class="col-xs-5 text-right">
+									￦<span th:text="${shoppingCart.grandTotal}"></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-7 text-left">
+									<h3 style="color: darkred;">
+										<strong>주문 합계 : </strong>
+									</h3>
+								</div>
+								<div class="col-xs-5 text-right">
+									<h3>
+										<strong style="color: darkred;">￦<span
+											th:with="total=${shoppingCart.grandTotal+2500}"
+											th:text="${#numbers.formatDecimal(total, 0 ,2)}"></span></strong>
+									</h3>
+								</div>
+							</div>
+							<div class="panel-footer">배송료 2500원 포함된 가격입니다.</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 체크아웃 정보 -->
+				<div class="col-xs-8"></div>
+			</form>
+		</div>
+	</div>
+	<!-- end of container -->
+
+	<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>
