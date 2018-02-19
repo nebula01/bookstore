@@ -57,9 +57,98 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 체크아웃 정보 -->
-				<div class="col-xs-8"></div>
+				<div class="col-xs-8">
+					<div th:if=${missingRequiredField}>
+						<h5 class="alert alert-warning">* 표시는 필수 항목 입니다.</h5>
+					</div>
+
+					<div class="panel-group" id="accordion">
+
+						<!-- 1. Shipping Address -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#shippingInfo"> 1. 배송지 주소 </a>
+								</h4>
+							</div>
+							<div id="shippingInfo" class="panel-collapse collapse"
+								th:classappend="${classActiveShipping}? 'in'">
+								<div class="panel-body">
+									<table class="table" th:if="${not emptyShippingList}">
+										<thead>
+											<tr>
+												<th>가능한 배송지 주소</th>
+												<th>선택</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="userShipping : ${userShippingList}">
+												<td
+													th:text="${userShipping.userShippingStreet}+', '+${userShipping.userShippingCity}
+												+', '+${userShipping.userShippingState}"></td>
+												<td><a
+													th:href="${/setShippingAddress(userShippingId=${userShipping.id})}">이 주소 사용</a></td>
+											</tr>
+										</tbody>
+									</table>
+
+									<div class="form-group">
+										<label for="shippingName">* 받는 사람</label> <input type="text"
+											class="form-control" id="shippingName"
+											placeholder="받는 사람" name="shippingAddressName"
+											th:value="${shippingAddress.shippingAddressName}" />
+									</div>
+
+									<div class="form-group">
+										<label for="shippingStreet">* 상세 주소</label> <input
+											type="text" class="form-control" id="shippingStreet"
+											placeholder="상세 주소" name="shippingAddressStreet"
+											th:value="${shippingAddress.shippingAddressStreet}" />
+									</div>
+
+									<div class="row">
+										<div class="col-xs-4">
+											<div class="form-group">
+												<label for="shippingCity">* 시</label> <input type="text"
+													class="form-control" id="shippingCity"
+													placeholder="시" th:name="shippingAddressCity"
+													required="required"
+													th:value="${shippingAddress.shippingAddressCity}" />
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="form-group">
+												<label for="shippingState">* 도 / 광역시 / 특별시</label> <select
+													id="shippingState" class="form-control"
+													th:name="shippingAddresstate"
+													th:value="${shippingAddress.shippingAddressState}"
+													required="required">
+													<option value="" disabled="disabled">선택하세요</option>
+													<option th:each="state : ${stateList}" th:text="${state}"
+														th:selected="(${shippingAddress.shippingAddressState}==${state})"></option>
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="form-group">
+												<label for="shippingZipcode">* 우편번호</label> <input
+													type="text" class="form-control" id="shippingZipcode"
+													placeholder="우편번호"
+													th:name="shippingAddressZipcode" required="required"
+													th:value="${shippingAddress.shippingAddressZipcode}" />
+											</div>
+										</div>
+									</div>
+									<a data-toggele="collapse" data-parent="#accordion"
+										class="btn btn-warning pull-right" href="#paymentInfo">다음</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
