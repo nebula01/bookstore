@@ -31,51 +31,59 @@ public class BillingAddress {
 		this.id = id;
 	}
 
-	public String getbillingAddressName() {
+	public String getBillingAddressName() {
 		return billingAddressName;
 	}
 
-	public void setbillingAddressName(String billingAddressName) {
+	public void setBillingAddressName(String billingAddressName) {
 		this.billingAddressName = billingAddressName;
 	}
 
-	public String getbillingAddressStreet() {
+	public String getBillingAddressStreet() {
 		return billingAddressStreet;
 	}
 
-	public void setbillingAddressStreet(String billingAddressStreet) {
+	public void setBillingAddressStreet(String billingAddressStreet) {
 		this.billingAddressStreet = billingAddressStreet;
 	}
 
-	public String getbillingAddressCity() {
+	public String getBillingAddressCity() {
 		return billingAddressCity;
 	}
 
-	public void setbillingAddressCity(String billingAddressCity) {
+	public void setBillingAddressCity(String billingAddressCity) {
 		this.billingAddressCity = billingAddressCity;
 	}
 
-	public String getbillingAddressState() {
+	public String getBillingAddressState() {
 		return billingAddressState;
 	}
 
-	public void setbillingAddressState(String billingAddressState) {
+	public void setBillingAddressState(String billingAddressState) {
 		this.billingAddressState = billingAddressState;
 	}
 
-	public String getbillingAddressCountry() {
+	public String getBillingAddressCountry() {
 		return billingAddressCountry;
 	}
 
-	public void setbillingAddressCountry(String billingAddressCountry) {
+	public void setBillingAddressCountry(String billingAddressCountry) {
 		this.billingAddressCountry = billingAddressCountry;
 	}
 
-	public String getbillingAddressZipcode() {
+	public String getBillingAddressZipcode() {
 		return billingAddressZipcode;
 	}
 
-	public void setbillingAddressZipcode(String billingAddressZipcode) {
+	public void setBillingAddressZipcode(String billingAddressZipcode) {
 		this.billingAddressZipcode = billingAddressZipcode;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 }

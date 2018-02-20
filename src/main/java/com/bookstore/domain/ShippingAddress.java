@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ShippingAddress {
 
+	// getter와 setter가 잘 못 만들어진 경우 el에서 인식을 못함
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -32,51 +33,51 @@ public class ShippingAddress {
 		this.id = id;
 	}
 
-	public String getshippingAddressName() {
+	public String getShippingAddressName() {
 		return shippingAddressName;
 	}
 
-	public void setshippingAddressName(String shippingAddressName) {
+	public void setShippingAddressName(String shippingAddressName) {
 		this.shippingAddressName = shippingAddressName;
 	}
 
-	public String getshippingAddressStreet() {
+	public String getShippingAddressStreet() {
 		return shippingAddressStreet;
 	}
 
-	public void setshippingAddressStreet(String shippingAddressStreet) {
+	public void setShippingAddressStreet(String shippingAddressStreet) {
 		this.shippingAddressStreet = shippingAddressStreet;
 	}
 
-	public String getshippingAddressCity() {
+	public String getShippingAddressCity() {
 		return shippingAddressCity;
 	}
 
-	public void setshippingAddressCity(String shippingAddressCity) {
+	public void setShippingAddressCity(String shippingAddressCity) {
 		this.shippingAddressCity = shippingAddressCity;
 	}
 
-	public String getshippingAddressState() {
+	public String getShippingAddressState() {
 		return shippingAddressState;
 	}
 
-	public void setshippingAddressState(String shippingAddressState) {
+	public void setShippingAddressState(String shippingAddressState) {
 		this.shippingAddressState = shippingAddressState;
 	}
 
-	public String getshippingAddressCountry() {
+	public String getShippingAddressCountry() {
 		return shippingAddressCountry;
 	}
 
-	public void setshippingAddressCountry(String shippingAddressCountry) {
+	public void setShippingAddressCountry(String shippingAddressCountry) {
 		this.shippingAddressCountry = shippingAddressCountry;
 	}
 
-	public String getshippingAddressZipcode() {
+	public String getShippingAddressZipcode() {
 		return shippingAddressZipcode;
 	}
 
-	public void setshippingAddressZipcode(String shippingAddressZipcode) {
+	public void setShippingAddressZipcode(String shippingAddressZipcode) {
 		this.shippingAddressZipcode = shippingAddressZipcode;
 	}
 
