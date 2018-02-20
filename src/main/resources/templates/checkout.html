@@ -90,22 +90,23 @@
 													th:text="${userShipping.userShippingStreet}+', '+${userShipping.userShippingCity}
 												+', '+${userShipping.userShippingState}"></td>
 												<td><a
-													th:href="${/setShippingAddress(userShippingId=${userShipping.id})}">이 주소 사용</a></td>
+													th:href="${/setShippingAddress(userShippingId=${userShipping.id})}">이
+														주소 사용</a></td>
 											</tr>
 										</tbody>
 									</table>
 
 									<div class="form-group">
 										<label for="shippingName">* 받는 사람</label> <input type="text"
-											class="form-control" id="shippingName"
-											placeholder="받는 사람" name="shippingAddressName"
+											class="form-control" id="shippingName" placeholder="받는 사람"
+											name="shippingAddressName"
 											th:value="${shippingAddress.shippingAddressName}" />
 									</div>
 
 									<div class="form-group">
-										<label for="shippingStreet">* 상세 주소</label> <input
-											type="text" class="form-control" id="shippingStreet"
-											placeholder="상세 주소" name="shippingAddressStreet"
+										<label for="shippingStreet">* 상세 주소</label> <input type="text"
+											class="form-control" id="shippingStreet" placeholder="상세 주소"
+											name="shippingAddressStreet"
 											th:value="${shippingAddress.shippingAddressStreet}" />
 									</div>
 
@@ -113,9 +114,8 @@
 										<div class="col-xs-4">
 											<div class="form-group">
 												<label for="shippingCity">* 시</label> <input type="text"
-													class="form-control" id="shippingCity"
-													placeholder="시" th:name="shippingAddressCity"
-													required="required"
+													class="form-control" id="shippingCity" placeholder="시"
+													th:name="shippingAddressCity" required="required"
 													th:value="${shippingAddress.shippingAddressCity}" />
 											</div>
 										</div>
@@ -136,14 +136,105 @@
 											<div class="form-group">
 												<label for="shippingZipcode">* 우편번호</label> <input
 													type="text" class="form-control" id="shippingZipcode"
-													placeholder="우편번호"
-													th:name="shippingAddressZipcode" required="required"
+													placeholder="우편번호" th:name="shippingAddressZipcode"
+													required="required"
 													th:value="${shippingAddress.shippingAddressZipcode}" />
 											</div>
 										</div>
 									</div>
 									<a data-toggele="collapse" data-parent="#accordion"
 										class="btn btn-warning pull-right" href="#paymentInfo">다음</a>
+								</div>
+							</div>
+						</div>
+						<!-- 3. 목록 보기 및 배송 -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#reviewItems"> 3. 목록 보기 및 배송 </a>
+								</h4>
+							</div>
+							<div id="reviewItems" class="panel-collapse collapse">
+								<div class="panel-body">
+									<h4>배송지역을 선택 하세요</h4>
+									<div class="radio">
+										<label> <input type="radio" name="shippingMethod"
+											value="groundShipping" checked="checked" /> Ground Shipping
+										</label>
+									</div>
+									<div class="radio">
+										<label> <input type="radio" name="shippingMethod"
+											value="premiumShipping" /> Premium Shipping
+										</label>
+									</div>
+
+									<div class="row">
+										<div class="col-xs-8">
+											<h4>상품</h4>
+										</div>
+										<div class="col-xs-2">
+											<h4>가격</h4>
+										</div>
+										<div class="col-xs-2">
+											<h4>수량</h4>
+										</div>
+									</div>
+
+									<!-- 장바구니 안에 상품 표시 -->
+									<div class="row" th:each="cartItem : ${cartItemList}">
+										<hr />
+										<div class="col-xs-2">
+											<a th:href="@{/bookDetail(id=${cartItem.book.id})}"> <img
+												class="img-responsive shelf-book"
+												th:src="#{adminPath}+@{/image/book/}+${cartItem.book.id}+'.png'"
+												style="width: 70px;" />
+											</a>
+										</div>
+										<div class="col-xs-6">
+											<div style="margin-left: 50px;">
+												<a th:href="@{/bookDetail?id=}+${cartItem.book.id}"><h4
+														th:text="${cartItem.book.title}"></h4></a>
+												<p th:if="${cartItem.book.inStockNumber&gt;10}"
+													style="color: green;">In Stock</p>
+												<p
+													th:if="${cartItem.book.inStockNumber&lt;10 and cartItem.book.inStockNumber&gt;0}"
+													style="color: green;">
+													Only <span th:text="${cartItem.book.inStockNumber}"></span>
+													In Stock
+												</p>
+												<p th:if="${cartItem.book.inStockNumber==0}"
+													style="color: darkred;">구매 불가</p>
+												<a th:href="@{/shoppingCart/removeItem?id=}+${cartItem.id}">삭제</a>
+											</div>
+										</div>
+
+										<div class="col-xs-2">
+											<h5 style="color: #db3208; font-size: large;">
+												￦<span th:text="${cartItem.book.ourPrice}"
+													th:style="${cartItem.book.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+											</h5>
+										</div>
+
+										<div class="col-xs-2">
+											<h5 style="font-size: large;" th:text="${cartItem.qty}"></h5>
+										</div>
+
+									</div>
+									<hr />
+									<hr />
+									<h4 class="col-xs-12 text-right">
+										<strong style="font-size: large;">주문 총 합계 (<span
+											th:text="${#lists.size(cartItemList)}"></span> 권):
+										</strong> <span style="color: #db3208; font-szie: large;">￦<span
+											th:text="${shoppingCart.grandTotal}"></span></span>
+									</h4>
+									<br /> <br />
+									<button type="submit" class="btn btn-warning btn-block">주문하기</button>
+									<p style="font-size: smaller;">
+										By placing your order, you agree to Le's Bookstore <a href="#">privacy</a>
+										notice and <a href="#">conditions</a> of use.
+									</p>
 								</div>
 							</div>
 						</div>
