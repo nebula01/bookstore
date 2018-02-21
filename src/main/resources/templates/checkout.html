@@ -27,6 +27,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<button type="submit" class="btn btn-warning btn-block">주문하기</button>
+							<br />
 							<p style="font-size: smaller;">
 								주문을 완료하시려면 <a href="#">개인정보보호</a>및 <a href="#">약관</a>에 동의하셔야
 								합니다.
@@ -36,7 +37,12 @@
 							<div class="row">
 								<div class="col-xs-7 text-left">배송비 포함 전 :</div>
 								<div class="col-xs-5 text-right">
-									￦<span th:text="${shoppingCart.grandTotal}"></span>
+									￦<span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'DEFAULT', 0, 'DEFAULT' )}"></span>
+								</div>
+								<br />
+								<div class="col-xs-7 text-left">배송비 :</div>
+								<div class="col-xs-5 text-right">
+									￦<span th:text="2500"></span>
 								</div>
 							</div>
 							<div class="row">
@@ -49,7 +55,7 @@
 									<h3>
 										<strong style="color: darkred;">￦<span
 											th:with="total=${shoppingCart.grandTotal+2500}"
-											th:text="${#numbers.formatDecimal(total, 0 ,2)}"></span></strong>
+											th:text="${#numbers.formatDecimal(total, 0, 'DEFAULT', 0, 'DEFAULT' )}"></span></strong>
 									</h3>
 								</div>
 							</div>
@@ -90,16 +96,16 @@
 													th:text="${userShipping.userShippingStreet}+', '+${userShipping.userShippingCity}
 												+', '+${userShipping.userShippingState}"></td>
 												<td><a
-													th:href="${/setShippingAddress(userShippingId=${userShipping.id})}">이
+													th:href="@{/setShippingAddress(userShippingId=${userShipping.id})}">이
 														주소 사용</a></td>
 											</tr>
 										</tbody>
 									</table>
 
 									<div class="form-group">
-										<label for="shippingName">* Name</label> <input type="text"
+										<label for="shippingName">* 받는 사람</label> <input type="text"
 											class="form-control" id="shippingName"
-											placeholder="Receiver Name" name="shippingAddressName"
+											placeholder="받는 사람" name="shippingAddressName"
 											th:value="${shippingAddress.shippingAddressName}" />
 									</div> 
 
@@ -142,7 +148,7 @@
 											</div>
 										</div>
 									</div>
-									<a data-toggele="collapse" data-parent="#accordion"
+									<a data-toggle="collapse" data-parent="#accordion"
 										class="btn btn-warning pull-right" href="#paymentInfo">다음</a>
 								</div>
 							</div>
@@ -326,7 +332,7 @@
 									</div>
 
 									<a data-toggle="collapse" data-parent="#accordion"
-										class="btn btn-warning pull-right" href="#reviewItems">Next</a>
+										class="btn btn-warning pull-right" href="#reviewItems">다음</a>
 								</div>
 							</div>
 						</div>
