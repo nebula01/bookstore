@@ -1,18 +1,24 @@
 package com.bookstore.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bookstore.domain.BillingAddress;
 import com.bookstore.domain.CartItem;
+import com.bookstore.domain.Order;
 import com.bookstore.domain.Payment;
 import com.bookstore.domain.ShippingAddress;
 import com.bookstore.domain.ShoppingCart;
@@ -24,11 +30,12 @@ import com.bookstore.service.BillingAddressService;
 import com.bookstore.service.CartItemService;
 import com.bookstore.service.PaymentService;
 import com.bookstore.service.ShippingAddressService;
+import com.bookstore.service.ShoppingCartService;
 import com.bookstore.service.UserPaymentService;
 import com.bookstore.service.UserService;
 import com.bookstore.service.UserShippingService;
 import com.bookstore.utility.KRConstants;
-import com.sun.scenario.effect.Blend.Mode;
+//import com.sun.scenario.effect.Blend.Mode;
 
 @Controller
 public class CheckoutController {
@@ -59,6 +66,12 @@ public class CheckoutController {
 	@Autowired
 	private UserPaymentService userPaymentService;
 
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@Autowired
+	private ShoppingCartService shoppingCartService;
+	
 	@RequestMapping("/checkout")
 	public String checkout(@RequestParam("id") Long id,
 			@RequestParam(value = "missingRequiredField", required = false) boolean missingRequiredField, Model model,
@@ -240,5 +253,68 @@ public class CheckoutController {
 
 			return "checkout";
 		}
+	}
+	
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public String postCheckout(
+			@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
+			@ModelAttribute("billingAddress") BillingAddress billingAddress,
+			@ModelAttribute("payment") Payment payment,
+			@ModelAttribute("billingSameAsShipping") String billingSameAsShipping,
+			@ModelAttribute("shippingMethod") String shippingMethod,
+			Principal principal, Model model) {
+		
+			// 로그인한 유저에서 shoppingCart 객체 반환
+			ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
+			
+			List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+			
+			model.addAttribute("cartItemList", cartItemList);
+			
+			// 배송지 주소와 같게가 체크 되어 있을 경우의 처리
+			if (billingSameAsShipping.equals("true")) {
+				billingAddress.setBillingAddressName(shippingAddress.getShippingAddressName());
+				billingAddress.setBillingAddressStreet(shippingAddress.getShippingAddressStreet());
+				billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
+				billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
+				billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
+				billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
+			}
+			
+			// 항목이 비어 있을 때 처리
+			if (shippingAddress.getShippingAddressStreet().isEmpty() || shippingAddress.getShippingAddressCity().isEmpty()
+					|| shippingAddress.getShippingAddressState().isEmpty()
+					|| shippingAddress.getShippingAddressName().isEmpty()
+					|| shippingAddress.getShippingAddressZipcode().isEmpty() || payment.getCardNumber().isEmpty()
+					|| payment.getCvc() == 0 || billingAddress.getBillingAddressStreet().isEmpty()
+					|| billingAddress.getBillingAddressCity().isEmpty() || billingAddress.getBillingAddressState().isEmpty()
+					|| billingAddress.getBillingAddressName().isEmpty()
+					|| billingAddress.getBillingAddressZipcode().isEmpty())
+				return "redirect:/checkout?id=" + shoppingCart.getId() + "&missingRequiredField=true";
+			
+			User user = userService.findByUsername(principal.getName());
+			
+			// 주문 처리
+			//Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
+			
+			//mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.KOREAN));
+			
+			// 장바구니 비우기
+			//shoppingCartService.clearShoppingCart(shoppingCart);
+		
+			LocalDate today = LocalDate.now();
+			
+			LocalDate estimatedDeliveryDate;
+			
+			// 지역에 따른 날짜 처리
+			if (shippingMethod.equals("groundShipping")) {
+				estimatedDeliveryDate = today.plusDays(5);
+			} else {
+				estimatedDeliveryDate = today.plusDays(3);
+			}
+			
+			model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
+			
+			return "orderSubmittedPage";
 	}
 }
