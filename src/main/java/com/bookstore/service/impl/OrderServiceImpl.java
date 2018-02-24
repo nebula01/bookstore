@@ -22,31 +22,34 @@ import com.bookstore.service.OrderService;
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private OrderRepository orderRepository; 
-	
+	private OrderRepository orderRepository;
+
 	@Autowired
 	private CartItemService cartItemService;
-	
+
+	// 주문 할때 필요한 정보들 장바구니와 장바구니에 담긴 책 목록, 배송지, 청구지 주소, 지불수단 정보, 배송방법, 주문자(유저)
 	@Override
-	public synchronized Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress,
-			Payment payment, String shippingMethod, User user) {
+	public synchronized Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress,
+			BillingAddress billingAddress, Payment payment, String shippingMethod, User user) {
 		// TODO Auto-generated method stub
 		Order order = new Order();
+		// 주문 상태
 		order.setOrderStatus("created");
+
 		order.setPayment(payment);
 		order.setBillingAddress(billingAddress);
 		order.setShippingAddress(shippingAddress);
 		order.setShippingMethod(shippingMethod);
-		
+
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		
+
 		for (CartItem cartItem : cartItemList) {
 			Book book = cartItem.getBook();
 			cartItem.setOrder(order);
 			// 현재 재고수에서 주문량 만큼 빼주기(계산이 있기 때문에 메서드에 sync붙여줌)
 			book.setInStockNumber(book.getInStockNumber() - cartItem.getQty());
 		}
-		
+
 		order.setCartItemList(cartItemList);
 		order.setOrderDate(Calendar.getInstance().getTime());
 		order.setOrderTotal(shoppingCart.getGrandTotal());
@@ -54,10 +57,10 @@ public class OrderServiceImpl implements OrderService {
 		billingAddress.setOrder(order);
 		payment.setOrder(order);
 		order.setUser(user);
-		
+
 		// 디비에 저장
 		order = orderRepository.save(order);
-		
+
 		return order;
 	}
 
