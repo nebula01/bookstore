@@ -28,6 +28,7 @@ import com.bookstore.domain.UserPayment;
 import com.bookstore.domain.UserShipping;
 import com.bookstore.service.BillingAddressService;
 import com.bookstore.service.CartItemService;
+import com.bookstore.service.OrderService;
 import com.bookstore.service.PaymentService;
 import com.bookstore.service.ShippingAddressService;
 import com.bookstore.service.ShoppingCartService;
@@ -71,6 +72,9 @@ public class CheckoutController {
 	
 	@Autowired
 	private ShoppingCartService shoppingCartService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@RequestMapping("/checkout")
 	public String checkout(@RequestParam("id") Long id,
@@ -295,7 +299,7 @@ public class CheckoutController {
 			User user = userService.findByUsername(principal.getName());
 			
 			// 주문 처리
-			//Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
+			Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
 			
 			//mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.KOREAN));
 			

@@ -35,6 +35,9 @@ public class Order {
 	private ShippingAddress shippingAddress;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	private BillingAddress billingAddress;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Payment payment;
 
 	// 여러 개의 주문은 한명의 유저에
@@ -103,5 +106,29 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public ShippingAddress getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(ShippingAddress shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public BillingAddress getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(BillingAddress billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 }
